@@ -1,4 +1,5 @@
-# Dalai
+Adding - training file and training option
+## Dalai
 
 Run LLaMA and Alpaca on your computer.
 
