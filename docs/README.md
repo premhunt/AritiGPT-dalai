@@ -1,4 +1,74 @@
-Adding - training file and training option
+# How to Train for AriticGPT
+
+---
+## Introduction
+AriticGPT-Dalai is a platform for training machine learning models, including language models like GPT. Yes, you can train your own GPT model using your own data in AriticGPT-Dalai.
+
+To do this, you would first need to prepare your data and create a dataset that follows the format required by the GPT model. This typically involves tokenizing your text data and dividing it into training and validation sets. Once you have prepared your data, you can use the training scripts provided in Dalai to train a GPT model on your data.
+
+Keep in mind that training a language model from scratch can be a computationally intensive task, so you will need access to significant computing resources. Additionally, training a high-quality language model requires careful selection of hyperparameters and training settings, so it may take some experimentation to achieve good results.
+
+Alternatively, if you have a smaller amount of data or are looking for a faster way to fine-tune an existing GPT model, you can use a pre-trained GPT model and fine-tune it on your data. This approach is often faster and requires less computational resources than training a model from scratch.
+
+## Generate Training FIile 
+
+Sample commands - connect for specific Aritic related 
+
+You can use CSV or Excel for training and for this take your file and convert into training file
+
+```
+dalai dataset create \
+  --input /path/to/input.csv \
+  --output /path/to/output/dir \
+  --tokenizer-type bert \
+  --tokenizer-name bert-base-uncased \
+  --max-seq-length 128 \
+  --train-split 0.8 \
+  --dev-split 0.1 \
+  --test-split 0.1 \
+  --label-column label \
+  --text-column text
+
+```
+
+- input: path to the input CSV file
+- output: directory where the output files will be saved
+- tokenizer-type and --tokenizer-name: specify the type and name of the tokenizer to use for tokenizing the text data. In this example, we're using the BERT tokenizer with the "bert-base-uncased" pre-trained model.
+- max-seq-length: the maximum length of input sequences to the tokenizer (and subsequently, the maximum length of input sequences to the model)
+- train-split, --dev-split, --test-split: the proportions of the data to allocate to the training, development (validation), and test sets, respectively. These should add up to 1.0.
+- label-column and --text-column: the names of the columns in the CSV file that contain the label (target) and text data, respectively.
+This command will tokenize the text data in the CSV file using the specified tokenizer and split the data into training, validation, and test sets. The resulting dataset will be saved to the specified output directory in the format required for fine-tuning a pre-trained language model like GPT using the dalai train command (as shown in my previous response).
+
+Again, keep in mind that this is just an example command, and you will likely need to modify some of the options to suit your specific dataset and training goals. Additionally, you will need to have the necessary data and environment set up before running this command. You can get connect with AriticGPT-Dalai team for this.
+
+## Train AriticGPT-Dalai
+
+```
+dalai train \
+  --model gpt \
+  --train-data /path/to/train/data.txt \
+  --validation-data /path/to/validation/data.txt \
+  --output-dir /path/to/output/dir \
+  --num-layers 12 \
+  --hidden-size 768 \
+  --num-attention-heads 12 \
+  --batch-size 8 \
+  --learning-rate 1e-4 \
+  --epochs 3 \
+  --gradient-accumulation-steps 2 \
+  --max-seq-length 128
+
+```
+- model gpt: specifies that we want to train a GPT model
+- train-data and --validation-data: paths to the training and validation data files, respectively
+- output-dir: directory where the trained model and other output files will be saved
+- num-layers, --hidden-size, --num-attention-heads: hyperparameters that control the size and complexity of the model architecture
+- batch-size: number of examples to process in each training step
+- learning-rate: controls the rate at which the model weights are updated during training
+- epochs: number of times to iterate over the entire training dataset
+- gradient-accumulation-steps: controls the number of training steps to accumulate gradients before applying them to update the model weights
+- max-seq-length: the maximum length of input sequences to the model
+
 ## Dalai
 
 Run LLaMA and Alpaca on your computer.
